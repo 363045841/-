@@ -38,11 +38,12 @@ def getFromUrl(url):
     with open("./data.csv",mode='a',encoding='utf-8') as file:
         writer = csv.writer(file)
         add = []
-        add.append(img_srcs[0])
+        if(len(img_srcs) > 0):
+            add.append(img_srcs[0])
         for match in matches:
             add.append(match[1])
         writer.writerow(add)
 
 for url in urls:
     getFromUrl(url)
-    time.sleep(10)
+    time.sleep(5)
