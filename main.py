@@ -21,7 +21,7 @@ def getFromUrl(url):
     response_code = response.text.encode('iso-8859-1').decode('gbk')
 
     # 使用 BeautifulSoup 解析 HTML
-    soup = BeautifulSoup(response_code, 'lxml')
+    soup = BeautifulSoup(response_code, 'html.parser')
 
     # 找到所有 class 为 'text' 的元素
     text_elements = soup.find_all(class_='text')
@@ -35,7 +35,7 @@ def getFromUrl(url):
     pattern = r'【(.*?)】(.*?)(?=【|$)'  # 提取【】中的内容以及其后的描述，直到下一个【或文本结束
     matches = re.findall(pattern, extracted_text, re.S)  # re.S 让.匹配换行符
     print("正在爬取:"+matches[0][1]+"\n"+url)
-    with open("./data.csv",mode='a',encoding='utf-8') as file:
+    with open("./data.csv",mode='a',encoding='utf-8',newline='\n') as file:
         writer = csv.writer(file)
         add = []
         if(len(img_srcs) > 0):

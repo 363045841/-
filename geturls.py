@@ -36,7 +36,7 @@ def getFromUrl(url, index):
                 hrefs.append((tag['href'], tag.string))
 
     # 将结果写入 CSV 文件
-    with open("test1.csv", "w", newline='', encoding='utf-8') as f:
+    with open("test1.csv", "w", encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerows(hrefs)  # 写入所有 href 和文本内容
 
