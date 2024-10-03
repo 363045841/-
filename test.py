@@ -1,3 +1,4 @@
+
 import requests
 import re
 import csv
@@ -24,24 +25,10 @@ def getFromUrl(url):
     soup = BeautifulSoup(response_code, 'lxml')
 
     # 找到所有 class 为 'text' 的元素
-    text_elements = soup.find_all(class_='text')
+
     img_tags = soup.find_all('img', alt=lambda x: x and '功效与作用' in x)
     img_srcs = [img['src'] for img in img_tags]
     print(img_srcs)
-    # 将提取的数据组合起来
-    extracted_text = extracted_text = text_elements[-1].get_text(strip=True)
-
-
-    pattern = r'【(.*?)】(.*?)(?=【|$)'  # 提取【】中的内容以及其后的描述，直到下一个【或文本结束
-    matches = re.findall(pattern, extracted_text, re.S)  # re.S 让.匹配换行符
-    print("正在爬取:"+matches[0][1]+"\n"+url)
-    with open("./data.csv",mode='a',encoding='utf-8') as file:
-        writer = csv.writer(file)
-        add = []
-        add.append(img_srcs[0])
-        for match in matches:
-            add.append(match[1])
-        writer.writerow(add)
 
 for url in urls:
     getFromUrl(url)
