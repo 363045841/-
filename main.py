@@ -40,6 +40,7 @@ def getFromUrl(url):
         if(len(img_srcs) > 0):
             add.append(img_srcs[0])
         for match in matches:
+            add.append(match[0])
             add.append(match[1])
         writer.writerow(add)
 
