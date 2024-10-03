@@ -27,7 +27,6 @@ def getFromUrl(url):
     text_elements = soup.find_all(class_='text')
     img_tags = soup.find_all('img', attrs={'src': lambda x: x and '/uploads/allimg' in x})
     img_srcs = [img['src'] for img in img_tags]
-    print(img_srcs)
     # 将提取的数据组合起来
     extracted_text = extracted_text = text_elements[-1].get_text(strip=True)
 
