@@ -46,4 +46,4 @@ def getFromUrl(url):
 
 for url in urls:
     getFromUrl(url)
-    time.sleep(5)
+    time.sleep(10)
