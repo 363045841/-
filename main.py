@@ -23,8 +23,12 @@ def getFromUrl(url,headers = headers):
     response = requests.get(url=url)
 
     # 使用 'iso-8859-1' 编码转换为 'gbk'
-    response_code = response.text.encode('iso-8859-1').decode('gbk')
-    print(response_code)
+    response_code = None
+    try:
+        response_code = response.text.encode('iso-8859-1').decode('gbk')
+    except UnicodeDecodeError:
+        errorLog.append("无法解码:" + url)
+        return
 
     # 使用 BeautifulSoup 解析 HTML
     soup = BeautifulSoup(response_code, 'html.parser')
@@ -64,5 +68,5 @@ if(len(errorLog)>0):
     print("以下URL出现问题,请检查是否有元素未被获取:")
     index = 1
     for i in errorLog:
-        print(index + ":" + i)
+        print(str(index) + ":" + i)
         index += 1
