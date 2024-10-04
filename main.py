@@ -28,7 +28,11 @@ def read_urls_from_file(file_path):
 read_urls_from_file('urls.txt')
 def getFromUrl(url,headers = headers):
     # 发送 GET 请求
-    response = requests.get(url=url)
+    try:
+        response = requests.get(url=url)
+    except requests.exceptions.Timeout:
+        errorLog.append("超时:" + url)
+        return
 
     # 使用 'iso-8859-1' 编码转换为 'gbk'
     response_code = None
