@@ -34,16 +34,14 @@ def getFromUrl(url,headers = headers):
         errorLog.append("超时:" + url)
         return
 
-    # 使用 'iso-8859-1' 编码转换为 'gbk'
     response_code = None
     try:
-        response.encoding = 'gb2312'
+        response.encoding = 'gb18030'
         response_code = response.text
     except UnicodeDecodeError:
         errorLog.append("无法解码:" + url)
         return
 
-    # 使用 BeautifulSoup 解析 HTML
     soup = BeautifulSoup(response_code, 'html.parser')
 
     # 找到所有 class 为 'text' 的元素
