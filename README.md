@@ -1,5 +1,6 @@
 1. 安装python环境
-1. clone仓库
+1. clone仓库  
+只需要clone源代码可以使用 `git clone --depth 1 https://gitee.com/yyt363045841/chinese-medicine-crawler`  
 3. 安装依赖  
 `pip install requests beautifulsoup4`
 4. 装填弹药到urls.txt,不要超过60个，否则可能封IP
