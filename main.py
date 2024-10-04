@@ -52,7 +52,8 @@ def getFromUrl(url):
 
 for url in urls:
     getFromUrl(url)
-    time.sleep(10)
+    if(url != urls[-1]):
+        time.sleep(10)
 
 if(len(errorLog)>0):
     print("以下URL出现问题,请检查是否有元素未被获取:")
