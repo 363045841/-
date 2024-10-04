@@ -14,6 +14,9 @@ def read_urls_from_file(file_path):
 read_urls_from_file('urlsFather.txt')
 
 def getFromUrl(url, index):
+    if url == '':
+        print("空url")
+        return
     print("正在获取：" + url + "(" + str(index) + "/" + str(len(urls)) + ")")
     # 发送 GET 请求
     response = requests.get(url=url)
