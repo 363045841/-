@@ -7,6 +7,7 @@ import time
 # URL
 urls = []
 errorLog = []
+tags_map:tuple = {}
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'Accept-Encoding': 'gzip, deflate',
@@ -57,17 +58,33 @@ def getFromUrl(url,headers = headers):
 
     pattern = r'【(.*?)】(.*?)(?=【|$)'  # 提取【】中的内容以及其后的描述，直到下一个【或文本结束
     matches = re.findall(pattern, extracted_text, re.S)  # re.S 让.匹配换行符
+    for match in matches:
+        match:tuple
+        if(match[0] not in tags_map):
+            tags_map[match[0]] = len(tags_map)
+
     print("正在爬取:"+matches[0][1]+"\n"+url)
     with open("./data.csv",mode='a',encoding='utf-8',newline='\n') as file:
         writer = csv.writer(file)
-        add = []
+        add = [''] * len(tags_map)
         if(len(img_srcs) > 0):
             add.append(img_srcs[0])
         else:
             errorLog.append("未抓取到符合条件的img元素:" + url)
+        
+        now_ptr: int = 0
+        """ while(now_ptr < len(tags_map)):
+            if(now_ptr == tags_map[match[0]]):
+                add.append(match[1])
+            else:
+                add.append("")
+            now_ptr += 1 """
+
         for match in matches:
-            add.append(match[0])
-            add.append(match[1])
+            match: tuple
+            add[tags_map[match[0]] + 1] = match[1]
+
+
         if(len(add) == 0):
             errorLog.append("写入结果为空,已拦截该次写入:" + url)
         else:
@@ -86,3 +103,16 @@ if(len(errorLog)>0):
         index += 1
 else:
     print("全部URL解析成功")
+
+    rows = []
+    with open('data.csv', mode='r', encoding='utf-8') as file:  # 或者使用 'utf-8-sig'，'gbk'，根据文件实际编码
+        reader = csv.reader(file)
+        rows = list(reader)
+    csv_header = ['img']
+    for key in tags_map:
+        csv_header.append(key)
+    rows.insert(0, csv_header)
+    with open('data_with_header.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(rows)
+
