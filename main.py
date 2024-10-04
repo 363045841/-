@@ -7,6 +7,10 @@ import time
 # URL
 urls = []
 errorLog = []
+headers = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0',
+}
 def read_urls_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         for line in file:
@@ -14,12 +18,13 @@ def read_urls_from_file(file_path):
 
 # 从文件读取 URL
 read_urls_from_file('urls.txt')
-def getFromUrl(url):
+def getFromUrl(url,headers = headers):
     # 发送 GET 请求
     response = requests.get(url=url)
 
     # 使用 'iso-8859-1' 编码转换为 'gbk'
     response_code = response.text.encode('iso-8859-1').decode('gbk')
+    print(response_code)
 
     # 使用 BeautifulSoup 解析 HTML
     soup = BeautifulSoup(response_code, 'html.parser')
