@@ -86,3 +86,5 @@ if(len(errorLog)>0):
     for i in errorLog:
         print(str(index) + ":" + i)
         index += 1
+else:
+    print("全部URL解析成功")
