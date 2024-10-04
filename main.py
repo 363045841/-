@@ -9,7 +9,15 @@ urls = []
 errorLog = []
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+    'Cache-Control': 'no-cache',
+    'DNT': '1',
+    'Host': 'www.zhongyoo.com',
+    'Pragma': 'no-cache',
+    'Proxy-Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0'
 }
 def read_urls_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -25,7 +33,8 @@ def getFromUrl(url,headers = headers):
     # 使用 'iso-8859-1' 编码转换为 'gbk'
     response_code = None
     try:
-        response_code = response.text.encode('iso-8859-1').decode('gbk')
+        response.encoding = 'gb2312'
+        response_code = response.text
     except UnicodeDecodeError:
         errorLog.append("无法解码:" + url)
         return
@@ -57,7 +66,10 @@ def getFromUrl(url,headers = headers):
         for match in matches:
             add.append(match[0])
             add.append(match[1])
-        writer.writerow(add)
+        if(len(add) == 0):
+            errorLog.append("写入结果为空,已拦截该次写入:" + url)
+        else:
+            writer.writerow(add)
 
 for url in urls:
     getFromUrl(url)
