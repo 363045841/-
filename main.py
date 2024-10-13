@@ -80,10 +80,10 @@ def getFromUrl(url,headers = headers):
                 add.append("")
             now_ptr += 1 """
 
+        add[0] = img_srcs[0]
         for match in matches:
             match: tuple
             add[tags_map[match[0]] + 1] = match[1]
-
 
         if(len(add) == 0):
             errorLog.append("写入结果为空,已拦截该次写入:" + url)
